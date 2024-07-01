@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enable Corepack
+        run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+      - name: Install yarn
+        run: yarn install --immutable
+      - name: Check Linting
+        run: yarn build
+      - name: Upload the artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: react-bundle
+          path: build

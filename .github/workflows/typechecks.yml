@@ -1,0 +1,20 @@
+name: Type Checks
+
+on:
+  push:
+
+jobs:
+  typechecks:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enable Corepack
+        run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+      - name: Install yarn
+        run: yarn install --immutable
+      - name: Check Types
+        run: yarn typechecks
